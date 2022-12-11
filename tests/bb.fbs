@@ -1,0 +1,23 @@
+namespace POFlat;
+
+attribute "priority";
+
+enum Status : byte { Red = 1, Green, Blue }
+
+struct Vec3 {
+  x:float;
+  y:float;
+  z:float;
+}
+
+table AtomPo {
+  name: string;
+  func: string;
+  status: Status = Red;
+  retry: bool = true;
+  skippable: bool = true;
+  params: bool = true;
+  meta: bool = true;
+  before_depends: Vec3;
+  after_depends: Vec3;
+}
