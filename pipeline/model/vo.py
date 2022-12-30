@@ -26,3 +26,26 @@ class TaskInstance:
             self.end_time = get_timestamp()
         self._status = status
 
+
+class VoInterface(object):
+
+    def to_str(self):
+        pass
+
+
+class AtomVo(VoInterface):
+
+    def __init__(self, name: str, func, **kwargs):
+        # 步骤名称
+        self.atom_name = name
+        # 重试次数 默认为0不支持重试
+        self.retry_number = kwargs.get("retry_number", 0)
+        # 超时次数 默认为0
+        self.timeout_number = kwargs.get("timeout_number", 0)
+        self.depend_fail_count = kwargs.get("depend_fail_count", 0)
+        self.skippable = kwargs.get("skippable", 0)
+        self.meta = kwargs.get("meta", 0)
+        self.status = kwargs.get("status", 0)
+        self.params = kwargs.get("params", {})
+        self.func = func
+
