@@ -1,27 +1,19 @@
 import time
-import utils
+
+from cmdb.sainc.http import HandlerInterface, ApiException
+from cmdb.sainc.utils import new_sha_password, new_token
 
 
-class Register(utils.HandlerInterface):
-    auth = 'register_user'
-
-    def call(self):
-        password = 'abc'
-        # 通过单向加密生成入库密码， 登陆校验密码使用同样方式生成的密码是否一致
-        sha_password = utils.new_sha_password(password.encode())
-        return {"code": 1}
-
-
-class Login(utils.HandlerInterface):
+class Login(HandlerInterface):
 
     def verify(self):
         # {"username":"admin","password":"abc123"}
         if 'username' not in self.body or 'password' not in self.body:
-            raise utils.ApiException(b'500', '用户密码不能为空'.encode())
+            raise ApiException(b'500', '用户密码不能为空'.encode())
         username = self.body.get("username")
-        password = utils.new_sha_password(self.body.get("password").encode())
+        password = new_sha_password(self.body.get("password").encode())
         if not(username == 'admin' and password == '970f9470656a0d289dc5c20f331b4cfe37238d05'):
-            raise utils.ApiException(b'500', '用户密码错误'.encode())
+            raise ApiException(b'500', '用户密码错误'.encode())
 
     def call(self):
         self.verify()
@@ -29,9 +21,9 @@ class Login(utils.HandlerInterface):
         user_id = 1
         expire_time = int(time.time()) + 360
         authority = ['admin']
-        token = utils.new_token([expire_time, user_id, authority])
+        token = new_token([expire_time, user_id, authority])
         return {
-            "name": 'Serati Ma',
+            "name": 'Javsen',
             "avatar": 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
             "userid": '00000001',
             "signature": '海纳百川，有容乃大',

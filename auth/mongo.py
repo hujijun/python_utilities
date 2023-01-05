@@ -1,4 +1,3 @@
-from sanic.log import logger
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo.uri_parser import parse_uri
 

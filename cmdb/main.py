@@ -1,21 +1,16 @@
-from service import sanic
-app = sanic.Sanic()
+import logging
+
+from cmdb.sainc.mongo import MongoService
+from cmdb.sainc.http import HttpService
+from api import login
+from api.mode import modelist
 
 
-@app.router(b'/create')
-async def create(request):
-    return b'ok'
-
-
-@app.router(b'/edit')
-async def edit(request):
-    return b'aaa'
-
-
-@app.router(b'/delete')
-async def delete(request):
-    return b'aaa'
-
-
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(filename)s:%(levelname)s: %(message)s")
+    router = {
+        b'/login': login.Login,
+        b'/modeList': modelist.ModelList,
+    }
+    MongoService.instance = MongoService("mongodb://root:example@192.168.87.129:27017")
+    HttpService(router).run()
