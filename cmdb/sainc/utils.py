@@ -21,9 +21,11 @@ def new_token(body):
     return new_sign(body) + body.decode()
 
 
+
 def new_sign(body: bytes):
     return hmac.HMAC(b'keaaeay', body, hashlib.md5).hexdigest()
 
+# print(new_token([1673162355, 1, ['admin']]))
 
 def verify_sign(body: bytes, auth: str) -> int:
     if not isinstance(body, bytes) or len(body) < 32:
